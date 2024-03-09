@@ -22,16 +22,11 @@ class Philosopher(Thread):
 
     # override run method in Thread class
     def run(self):
-        if self.runs_amount < 1:
-            while True:
-                self.think()
-                self.starve()
-                self.eat()
-        else:
-            for _ in range(self.runs_amount or float('inf')):
-                self.think()
-                self.starve()
-                self.eat()
+        for _ in range(self.runs_amount or float('inf')):
+            self.think()
+            self.starve()
+            self.eat()
+            
 
     def think(self):
         logging.info(f"Le philosophe {self.num} pense.")
