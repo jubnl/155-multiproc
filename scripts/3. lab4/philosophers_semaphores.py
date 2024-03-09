@@ -15,10 +15,16 @@ class Philosopher(Thread):
 
     # override run method in Thread class
     def run(self):
-        for _ in range(self.runs_amount):
-            self.think()
-            self.starve()
-            self.eat()
+        if self.runs_amount < 1:
+            while True:
+                self.think()
+                self.starve()
+                self.eat()
+        else:
+            for _ in range(self.runs_amount):
+                self.think()
+                self.starve()
+                self.eat()
 
     def think(self):
         print(f"Le philosophe {self.num} pense.")
