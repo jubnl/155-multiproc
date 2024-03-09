@@ -1,15 +1,19 @@
 from random import randint
 from threading import Thread, Semaphore
 from time import sleep
+import logging
+
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
 
+
 class Philosopher(Thread):
-    def __init__(self, num: int, left_fork: Semaphore, right_fork: Semaphore, runs_amount: int = None):
+    def __init__(self, num: int, left_fork: Semaphore, right_fork: Semaphore, runs_amount: int = 3):
         # init Thread super class
         super().__init__()
 
         assert num > 0, "Philosopher number must be a positive integer"
+        assert runs_amount >= 0, "Runs amount must be a non-negative integer"
 
         self.num = num
         self.left_fork = left_fork
@@ -58,7 +62,8 @@ if __name__ == "__main__":
 
     # (i + 1) % x -> next available fork
     philosophers = [
-        Philosopher(i + 1, forks[i], forks[(i + 1) % philosopher_amount])  # , runs_amount=0)
+        Philosopher(i + 1, forks[i], forks[(i + 1) % philosopher_amount])
+        # Philosopher(i + 1, forks[i], forks[(i + 1) % philosopher_amount], runs_amount=0)
         for i in range_x
     ]
 
