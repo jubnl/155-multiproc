@@ -2,11 +2,14 @@ from random import randint
 from threading import Thread, Semaphore
 from time import sleep
 
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
 
 class Philosopher(Thread):
-    def __init__(self, num: int, left_fork: Semaphore, right_fork: Semaphore, runs_amount: int = 3):
+    def __init__(self, num: int, left_fork: Semaphore, right_fork: Semaphore, runs_amount: int = None):
         # init Thread super class
         super().__init__()
+
+        assert num > 0, "Philosopher number must be a positive integer"
 
         self.num = num
         self.left_fork = left_fork
@@ -21,30 +24,30 @@ class Philosopher(Thread):
                 self.starve()
                 self.eat()
         else:
-            for _ in range(self.runs_amount):
+            for _ in range(self.runs_amount or float('inf')):
                 self.think()
                 self.starve()
                 self.eat()
 
     def think(self):
-        print(f"Le philosophe {self.num} pense.")
+        logging.info(f"Le philosophe {self.num} pense.")
         sleep(randint(1, 5))
 
     def starve(self):
-        print(f"Le philosophe {self.num} a faim.")
+        logging.info(f"Le philosophe {self.num} a faim.")
         self.left_fork.acquire()
-        print(f"Le philosophe {self.num} a pris la fourchette gauche.")
+        logging.info(f"Le philosophe {self.num} a pris la fourchette gauche.")
         self.right_fork.acquire()
-        print(f"Le philosophe {self.num} a pris la fourchette droite.")
+        logging.info(f"Le philosophe {self.num} a pris la fourchette droite.")
 
     def eat(self):
-        print(f"Le philosophe {self.num} commence à manger.")
+        logging.info(f"Le philosophe {self.num} commence à manger.")
         sleep(randint(1, 5))
-        print(f"Le philosophe {self.num} a fini de manger.")
+        logging.info(f"Le philosophe {self.num} a fini de manger.")
         self.left_fork.release()
-        print(f"Le philosophe {self.num} a posé la fourchette gauche.")
+        logging.info(f"Le philosophe {self.num} a posé la fourchette gauche.")
         self.right_fork.release()
-        print(f"Le philosophe {self.num} a posé la fourchette droite.")
+        logging.info(f"Le philosophe {self.num} a posé la fourchette droite.")
 
 
 if __name__ == "__main__":
