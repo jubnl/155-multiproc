@@ -22,10 +22,16 @@ class Philosopher(Thread):
 
     # override run method in Thread class
     def run(self):
-        for _ in range(self.runs_amount or float('inf')):
-            self.think()
-            self.starve()
-            self.eat()
+        if self.runs_amount > 0:
+            for _ in range(self.runs_amount):
+                self.think()
+                self.starve()
+                self.eat()
+        else:
+            while True:
+                self.think()
+                self.starve()
+                self.eat()
             
 
     def think(self):
@@ -57,8 +63,8 @@ if __name__ == "__main__":
 
     # (i + 1) % x -> next available fork
     philosophers = [
-        Philosopher(i + 1, forks[i], forks[(i + 1) % philosopher_amount])
-        # Philosopher(i + 1, forks[i], forks[(i + 1) % philosopher_amount], runs_amount=0)
+        # Philosopher(i + 1, forks[i], forks[(i + 1) % philosopher_amount])
+        Philosopher(i + 1, forks[i], forks[(i + 1) % philosopher_amount], runs_amount=0)
         for i in range_x
     ]
 
