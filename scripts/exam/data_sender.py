@@ -8,9 +8,10 @@ class Log:
         self.level = level or 'DEBUG'
         self.logger = logger or 'DefaultLogger'
         self.message = message or 'Default log message'
+        self.dt = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     def __str__(self):
-        return f'{datetime.now().strftime("%d-%m-%Y %H:%M:%S")} :: {self.level} :: {self.logger} :: {self.message}ENDOFLOG'
+        return f'{self.dt} :: {self.level} :: {self.logger} :: {self.message}ENDOFLOG'
 
 
 log_level_pool = [
