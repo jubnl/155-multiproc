@@ -52,10 +52,9 @@ port = 12345
 if __name__ == '__main__':
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect((host, port))
-        for _ in range(100):
-            log = Log(
-                level=random.choice(log_level_pool),
-                logger=random.choice(logger_pool),
-                message=random.choice(message_pool)
-            )
-            s.send(str(log).encode())
+        logs = ''.join([str(Log(
+            level=random.choice(log_level_pool),
+            logger=random.choice(logger_pool),
+            message=random.choice(message_pool)
+        )) for _ in range(100)]).encode()
+        s.send(logs)
