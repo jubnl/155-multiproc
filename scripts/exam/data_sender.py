@@ -14,6 +14,7 @@ class Log:
         return f'{self.dt} :: {self.level} :: {self.logger} :: {self.message}ENDOFLOG'
 
 
+# do not change the log_level_pool
 log_level_pool = [
     'TRACE',
     'DEBUG',
@@ -23,6 +24,7 @@ log_level_pool = [
     'FATAL'
 ]
 
+# You can add more loggers and messages to the pools
 logger_pool = [
     'AuthLogger',
     'PaymentLogger',
@@ -47,12 +49,13 @@ message_pool = [
 host = 'localhost'
 port = 12345
 
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.connect((host, port))
-    for _ in range(50):
-        log = Log(
-            level=random.choice(log_level_pool),
-            logger=random.choice(logger_pool),
-            message=random.choice(message_pool)
-        )
-        s.send(str(log).encode())
+if __name__ == '__main__':
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.connect((host, port))
+        for _ in range(100):
+            log = Log(
+                level=random.choice(log_level_pool),
+                logger=random.choice(logger_pool),
+                message=random.choice(message_pool)
+            )
+            s.send(str(log).encode())
