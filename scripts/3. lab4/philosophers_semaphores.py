@@ -3,7 +3,6 @@ from threading import Thread, Semaphore
 from time import sleep
 import logging
 
-
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
 
 
@@ -32,7 +31,6 @@ class Philosopher(Thread):
                 self.think()
                 self.starve()
                 self.eat()
-            
 
     def think(self):
         logging.info(f"Le philosophe {self.num} pense.")
@@ -64,7 +62,6 @@ if __name__ == "__main__":
     # (i + 1) % x -> next available fork
     philosophers = [
         Philosopher(i + 1, forks[i], forks[(i + 1) % philosopher_amount])
-        # Philosopher(i + 1, forks[i], forks[(i + 1) % philosopher_amount], runs_amount=0)
         for i in range_x
     ]
 
